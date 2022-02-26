@@ -2,11 +2,15 @@ package com.sbs.example.mysqlTextBoard;
 
 import java.util.Scanner;
 
+import com.sbs.example.mysqlTextBoard.controller.ArticleController;
+
 public class App {
 
 	public void run() {
 		
 		Scanner sc = Container.scanner;
+		
+		ArticleController articleController = new ArticleController();
 		
 		while(true) {
 			System.out.print("명령어) ");
@@ -14,7 +18,7 @@ public class App {
 			String cmd = sc.nextLine();
 			
 			if(cmd.equals("article list")) {
-				System.out.println("== 게시물 리스트 ==");
+				articleController.showList();
 			} else if(cmd.equals("system exit")) {
 				System.out.println("== 시스템 종료 ==");
 				break;
