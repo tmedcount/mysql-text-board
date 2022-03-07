@@ -1,7 +1,7 @@
 #DB 생성
-DROP DATABASE IF EXISTS tableBoard;
-CREATE DATABASE tableBoard;
-USE tableBoard;
+DROP DATABASE IF EXISTS textBoard;
+CREATE DATABASE textBoard;
+USE textBoard;
 
 #게시물 테이블 생성
 CREATE TABLE article (
