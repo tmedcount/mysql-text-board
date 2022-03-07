@@ -7,10 +7,13 @@ import com.sbs.example.mysqlTextBoard.dto.Article;
 
 public class ArticleDao {
 
+	private List<Article> articles;
+	
+	public ArticleDao() {
+		articles = new ArrayList<>();
+	}
+
 	public List<Article> getArticles() {
-		
-		List<Article> articles = new ArrayList<>();
-		
 		Article article;
 		
 		//첫번째 가짜 게시물 만들기
