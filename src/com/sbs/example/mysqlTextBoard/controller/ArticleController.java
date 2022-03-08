@@ -18,7 +18,11 @@ public class ArticleController {
 		
 		List<Article> articles = articleService.getArticles();
 		
-		System.out.println(articles);
+		System.out.println("번호/ 작성 / 수정 / 작성자 / 제목");
+		
+		for(Article article : articles) {
+			System.out.printf("%d / %s / %s / %d / %s\n", article.id, article.regDate, article.updateDate, article.memberId, article.title);
+		}
 	}
 
 }

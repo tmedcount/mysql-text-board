@@ -3,6 +3,7 @@ package com.sbs.example.mysqlTextBoard.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,15 +41,34 @@ public class ArticleDao {
 				e.printStackTrace();
 			}
 			
-			String sql = "UPDATE article";
-			sql += " SET updateDate = NOW()";
-			sql += " WHERE id = 3;";
-			
-			String sql1 = "UPDATE article SET updateDate = NOW() WHERE id = 3";
+			String sql = "SELECT * FROM article LIMIT 1";
 			
 			try {
 				PreparedStatement pstmt = con.prepareStatement(sql);
-				pstmt.execute();
+				// update, delete => execute()
+				ResultSet rs = pstmt.executeQuery();			
+				rs.next();
+				
+				int id = rs.getInt("id");
+				String regDate = rs.getString("regDate");
+				String updateDate = rs.getString("updateDate");
+				String title = rs.getString("title");
+				String body = rs.getString("body");
+				int memberId = rs.getInt("memberId");
+				int boardId = rs.getInt("boardId");
+				
+				Article article = new Article();
+				
+				article.id = id;
+				article.regDate = regDate;
+				article.updateDate = updateDate;
+				article.title = title;
+				article.body = body;
+				article.memberId = memberId;
+				article.boardId = boardId;
+				
+				articles.add(article);
+				
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
