@@ -17,27 +17,33 @@ public class ArticleDao {
 	}
 
 	public List<Article> getArticles() {
-		String dbmsJdbcUrl = "jdbc:mysql://127.0.0.1:3306/textBoard?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull";
-		String dbmsLoginId = "sbsst";
-		String dbmsLoginPw = "sbs123414";
-		
-		// 기사 등록
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		
-		// 연결 생성
 		Connection con = null;
 		
 		try {
-			con = DriverManager.getConnection(dbmsJdbcUrl, dbmsLoginId, dbmsLoginPw);
-		} catch (SQLException e) {
-			e.printStackTrace();
+			
+			String dbmsJdbcUrl = "jdbc:mysql://127.0.0.1:3306/textBoard?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull&connectTimeout=60000&socketTimeout=60000";
+			String dbmsLoginId = "sbsst";
+			String dbmsLoginPw = "sbs123414";
+			
+			// 기사 등록
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			
+			// 연결 생성
+			try {
+				con = DriverManager.getConnection(dbmsJdbcUrl, dbmsLoginId, dbmsLoginPw);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			// ~~~~~~~~~~~~~~~~~~~~~~~
+			
 		} finally {
 			try {
-				System.out.println("여기는 항상 실행 됨!!!!!!!!!!!!!!!!");
+				// System.out.println("여기는 항상 실행 됨!!!!!!!!!!!!!!!!");
 				if(con != null) {
 					con.close();
 				}
@@ -45,7 +51,7 @@ public class ArticleDao {
 				e.printStackTrace();
 			}
 		}
-
+		
 		return articles;
 	}
 	
