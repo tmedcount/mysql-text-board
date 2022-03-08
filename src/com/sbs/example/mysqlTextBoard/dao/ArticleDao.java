@@ -40,7 +40,6 @@ public class ArticleDao {
 			
 			try {
 				PreparedStatement pstmt = con.prepareStatement(sql);
-				// update, delete => execute()
 				ResultSet rs = pstmt.executeQuery();			
 				
 				while(rs.next()) {
@@ -104,7 +103,6 @@ public class ArticleDao {
 				try {
 					PreparedStatement pstmt = con.prepareStatement(sql);
 					pstmt.setInt(1, inputedId);
-					// update, delete => execute()
 					ResultSet rs = pstmt.executeQuery();			
 					
 					if(rs.next()) {
@@ -136,4 +134,51 @@ public class ArticleDao {
 			return article;
 	}
 
+	public int delete(int inputedId) {
+		int affectedRows = 0;
+		Connection con = null;
+		
+		try {
+			
+			String dbmsJdbcUrl = "jdbc:mysql://127.0.0.1:3306/textBoard?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull&connectTimeout=60000&socketTimeout=60000";
+			String dbmsLoginId = "sbsst";
+			String dbmsLoginPw = "sbs123414";
+			
+			// 기사 등록
+			try {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			
+			// 연결 생성
+			try {
+				con = DriverManager.getConnection(dbmsJdbcUrl, dbmsLoginId, dbmsLoginPw);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			String sql = "DELETE FROM article WHERE id = ?";
+			
+			try {
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, inputedId);
+				affectedRows = pstmt.executeUpdate();			
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+		} finally {
+			try {
+				// System.out.println("여기는 항상 실행 됨!!!!!!!!!!!!!!!!");
+				if(con != null) {
+					con.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return affectedRows;
+	}
 }
