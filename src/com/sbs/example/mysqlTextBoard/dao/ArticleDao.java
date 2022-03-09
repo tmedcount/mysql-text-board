@@ -32,63 +32,16 @@ public class ArticleDao {
 	}
 	
 	public Article getArticle(int inputedId) {
-			Article article = null;
-			Connection con = null;
-			
-			try {
-				
-				String dbmsJdbcUrl = "jdbc:mysql://127.0.0.1:3306/textBoard?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull&connectTimeout=60000&socketTimeout=60000";
-				String dbmsLoginId = "sbsst";
-				String dbmsLoginPw = "sbs123414";
-				
-				// 기사 등록
-				try {
-					Class.forName("com.mysql.cj.jdbc.Driver");
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				}
-				
-				// 연결 생성
-				try {
-					con = DriverManager.getConnection(dbmsJdbcUrl, dbmsLoginId, dbmsLoginPw);
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-				
-				String sql = "SELECT * FROM article WHERE id = ?";
-				
-				try {
-					PreparedStatement pstmt = con.prepareStatement(sql);
-					pstmt.setInt(1, inputedId);
-					ResultSet rs = pstmt.executeQuery();			
-					
-					if(rs.next()) {
-						int id = rs.getInt("id");
-						String regDate = rs.getString("regDate");
-						String updateDate = rs.getString("updateDate");
-						String title = rs.getString("title");
-						String body = rs.getString("body");
-						int memberId = rs.getInt("memberId");
-						int boardId = rs.getInt("boardId");
-						
-						article = new Article(id, regDate, updateDate, title, body, memberId, boardId);
-					}
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-				
-			} finally {
-				try {
-					// System.out.println("여기는 항상 실행 됨!!!!!!!!!!!!!!!!");
-					if(con != null) {
-						con.close();
-					}
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			
-			return article;
+		SecSql sql = new SecSql();
+		sql.append("SELECT * FROM article WHERE id = ?", inputedId);
+		
+		Map<String, Object> articleMap = MysqlUtil.selectRow(sql);
+		
+		if(articleMap.isEmpty()) {
+			return null;
+		}
+		
+		return new Article(articleMap);
 	}
 
 	public int delete(int inputedId) {
