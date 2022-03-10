@@ -16,7 +16,9 @@ public class ArticleController {
 	}
 	
 	public void doCommand(String cmd) {
-		if(cmd.startsWith("article write")) {
+		if(cmd.startsWith("article modify ")) {
+			doModify(cmd);
+		} else if(cmd.startsWith("article write")) {
 			doWrite(cmd);
 		} else if(cmd.startsWith("article delete ")) {
 			doDelete(cmd);
@@ -26,6 +28,36 @@ public class ArticleController {
 			showList(cmd);
 		}
 		
+	}
+
+	private void doModify(String cmd) {
+		System.out.println("== 게시물 수정 ==");
+		
+		int inputedId = Integer.parseInt(cmd.split(" ")[2]);
+		
+		Article article = articleService.getArticle(inputedId);
+		
+		if(article == null) {
+			System.out.println("존재하지 않는 게시물입니다.");
+			return;
+		}
+			
+		System.out.printf("번호 : %d\n", article.id);
+		System.out.printf("작성날짜 : %s\n", article.regDate);
+		System.out.printf("수정날짜 : %s\n", article.updateDate);
+		System.out.printf("작성자 : %s\n", article.memberId);
+		
+		Scanner sc = Container.scanner;
+		
+		System.out.print("제목 : ");
+		String title = sc.nextLine();
+		
+		System.out.print("내용 : ");
+		String body = sc.nextLine();
+		
+		articleService.modify(inputedId, title, body);
+		
+		System.out.printf("%d번 게시물을 수정하였습니다.\n", inputedId);
 	}
 
 	private void doWrite(String cmd) {

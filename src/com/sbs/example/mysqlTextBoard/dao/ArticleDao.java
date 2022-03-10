@@ -46,8 +46,7 @@ public class ArticleDao {
 	}
 
 	public int add(int boardId, int memberId, String title, String body) {
-		
-		
+
 		SecSql sql = new SecSql();
 		
 		sql.append("INSERT INTO article");
@@ -59,5 +58,18 @@ public class ArticleDao {
 		sql.append(" body = ?", body);
 
 		return MysqlUtil.insert(sql);
+	}
+
+	public int modify(int inputedId, String title, String body) {
+		
+		SecSql sql = new SecSql();
+		
+		sql.append("UPDATE article");
+		sql.append(" SET updateDate = NOW(),");
+		sql.append(" title = ?,", title);
+		sql.append(" body = ?", body);
+		sql.append(" WHERE id = ?", inputedId);
+
+		return MysqlUtil.update(sql);
 	}
 }

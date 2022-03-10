@@ -29,4 +29,8 @@ public class ArticleService {
 		return articleDao.add(boardId, memberId, title, body);
 	}
 
+	public int modify(int inputedId, String title, String body) {
+		return articleDao.modify(inputedId, title, body);
+	}
+
 }
