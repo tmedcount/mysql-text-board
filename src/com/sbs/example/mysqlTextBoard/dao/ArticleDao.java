@@ -25,9 +25,9 @@ public class ArticleDao {
 		return articles;
 	}
 	
-	public Article getArticle(int inputedId) {
+	public Article getArticle(int id) {
 		SecSql sql = new SecSql();
-		sql.append("SELECT * FROM article WHERE id = ?", inputedId);
+		sql.append("SELECT * FROM article WHERE id = ?", id);
 		
 		Map<String, Object> articleMap = MysqlUtil.selectRow(sql);
 		
@@ -38,9 +38,9 @@ public class ArticleDao {
 		return new Article(articleMap);
 	}
 
-	public int delete(int inputedId) {
+	public int delete(int id) {
 		SecSql sql = new SecSql();
-		sql.append("DELETE FROM article WHERE id = ?", inputedId);
+		sql.append("DELETE FROM article WHERE id = ?", id);
 		
 		return MysqlUtil.delete(sql);
 	}
@@ -60,7 +60,7 @@ public class ArticleDao {
 		return MysqlUtil.insert(sql);
 	}
 
-	public int modify(int inputedId, String title, String body) {
+	public int modify(int id, String title, String body) {
 		
 		SecSql sql = new SecSql();
 		
@@ -68,7 +68,7 @@ public class ArticleDao {
 		sql.append(" SET updateDate = NOW(),");
 		sql.append(" title = ?,", title);
 		sql.append(" body = ?", body);
-		sql.append(" WHERE id = ?", inputedId);
+		sql.append(" WHERE id = ?", id);
 
 		return MysqlUtil.update(sql);
 	}

@@ -17,20 +17,20 @@ public class ArticleService {
 		return articleDao.getArticles();
 	}
 
-	public Article getArticle(int inputedId) {
-		return articleDao.getArticle(inputedId);
+	public Article getArticle(int id) {
+		return articleDao.getArticle(id);
 	}
 
-	public int delete(int inputedId) {
-		return articleDao.delete(inputedId);
+	public int delete(int id) {
+		return articleDao.delete(id);
 	}
 
 	public int write(int boardId, int memberId, String title, String body) {
 		return articleDao.add(boardId, memberId, title, body);
 	}
 
-	public int modify(int inputedId, String title, String body) {
-		return articleDao.modify(inputedId, title, body);
+	public int modify(int id, String title, String body) {
+		return articleDao.modify(id, title, body);
 	}
 
 }

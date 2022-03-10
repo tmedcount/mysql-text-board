@@ -11,14 +11,14 @@ public class Article {
 	public int memberId;
 	public int boardId;
 
-	public Article(Map<String, Object> articleMap) {
-		this.id = (int) articleMap.get("id");
-		this.regDate = (String) articleMap.get("regDate");
-		this.updateDate = (String) articleMap.get("updateDate");
-		this.title = (String) articleMap.get("title");
-		this.body = (String) articleMap.get("body");
-		this.memberId = (int) articleMap.get("memberId");
-		this.boardId = (int) articleMap.get("boardId");
+	public Article(Map<String, Object> map) {
+		this.id = (int) map.get("id");
+		this.regDate = (String) map.get("regDate");
+		this.updateDate = (String) map.get("updateDate");
+		this.title = (String) map.get("title");
+		this.body = (String) map.get("body");
+		this.memberId = (int) map.get("memberId");
+		this.boardId = (int) map.get("boardId");
 	}
 
 	@Override

@@ -5,14 +5,18 @@ import java.util.Scanner;
 
 import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.dto.Article;
+import com.sbs.example.mysqlTextBoard.dto.Member;
 import com.sbs.example.mysqlTextBoard.service.ArticleService;
+import com.sbs.example.mysqlTextBoard.service.MemberService;
 
 public class ArticleController {
 	
 	private ArticleService articleService;
+	private MemberService memberService;
 	
 	public ArticleController() {
 		articleService = new ArticleService();
+		memberService = new MemberService();
 	}
 	
 	public void doCommand(String cmd) {
@@ -41,11 +45,14 @@ public class ArticleController {
 			System.out.println("존재하지 않는 게시물입니다.");
 			return;
 		}
+		
+		Member member = memberService.getMemberById(article.memberId);
+		
+		String writer = member.name;
 			
 		System.out.printf("번호 : %d\n", article.id);
 		System.out.printf("작성날짜 : %s\n", article.regDate);
-		System.out.printf("수정날짜 : %s\n", article.updateDate);
-		System.out.printf("작성자 : %s\n", article.memberId);
+		System.out.printf("작성자 : %s\n", writer);
 		
 		Scanner sc = Container.scanner;
 		
@@ -109,10 +116,14 @@ public class ArticleController {
 			return;
 		}
 		
+		Member member = memberService.getMemberById(article.memberId);
+		
+		String writer = member.name;
+		
 		System.out.printf("번호 : %d\n", article.id);
 		System.out.printf("작성날짜 : %s\n", article.regDate);
 		System.out.printf("수정날짜 : %s\n", article.updateDate);
-		System.out.printf("작성자 : %s\n", article.memberId);
+		System.out.printf("작성자 : %s\n", writer);
 		System.out.printf("제목 : %s\n", article.title);
 		System.out.printf("내용 : %s\n", article.body);
 	}
@@ -125,7 +136,11 @@ public class ArticleController {
 		System.out.println("번호/ 작성 / 수정 / 작성자 / 제목");
 		
 		for(Article article : articles) {
-			System.out.printf("%d / %s / %s / %d / %s\n", article.id, article.regDate, article.updateDate, article.memberId, article.title);
+			Member member = memberService.getMemberById(article.memberId);
+			
+			String writer = member.name;
+			
+			System.out.printf("%d / %s / %s / %s / %s\n", article.id, article.regDate, article.updateDate, writer, article.title);
 		}
 	}
 }
