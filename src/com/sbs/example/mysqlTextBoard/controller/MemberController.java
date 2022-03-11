@@ -3,7 +3,9 @@ package com.sbs.example.mysqlTextBoard.controller;
 import java.util.Scanner;
 
 import com.sbs.example.mysqlTextBoard.Container;
+import com.sbs.example.mysqlTextBoard.dto.Member;
 import com.sbs.example.mysqlTextBoard.service.MemberService;
+import com.sbs.example.mysqlTextBoard.session.Session;
 
 public class MemberController extends Controller {
 
@@ -16,7 +18,47 @@ public class MemberController extends Controller {
 	public void doCommand(String cmd) {
 		if(cmd.equals("member join")) {
 			doJoin(cmd);
+		} else if(cmd.equals("member login")) {
+			doLogin(cmd);
 		}
+	}
+
+	private void doLogin(String cmd) {
+		System.out.println("== 로그인 ==");
+		
+		Scanner sc = Container.scanner;
+				
+		System.out.print("아이디 : " );
+		String loginId = sc.nextLine().trim();
+		
+		if(loginId.length() == 0) {
+			System.out.println("아이디를 입력해 주세요.");
+			return;
+		}
+		
+		Member member = memberService.getMemberByLoginId(loginId);
+		
+		if(member == null) {
+			System.out.println("존재하지 않는 아이디입니다.");
+			return;
+		}
+				
+		System.out.print("비밀번호 : " );
+		String loginPW = sc.nextLine().trim();
+		
+		if(loginId.length() == 0) {
+			System.out.println("비밀번호를 입력해 주세요.");
+			return;
+		}
+		
+		if(!member.loginPw.equals(loginPW)) {
+			System.out.println("비밀번호가 맞지 않습니다.");
+			return;
+		}
+		
+		Session.loginedMemberId = member.id;
+		
+		System.out.printf("%s님 환영합니다!\n", member.name);
 	}
 
 	private void doJoin(String cmd) {

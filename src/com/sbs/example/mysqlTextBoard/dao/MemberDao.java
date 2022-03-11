@@ -26,7 +26,22 @@ public class MemberDao {
 
 	public Member getMemberById(int id) {
 		SecSql sql = new SecSql();
+		
 		sql.append("SELECT * FROM `member` WHERE id = ?", id);
+		
+		Map<String, Object> map = MysqlUtil.selectRow(sql);
+		
+		if(map.isEmpty()) {
+			return null;
+		}
+		
+		return new Member(map);
+	}
+
+	public Member getMemberLoginId(String loginId) {
+		SecSql sql = new SecSql();
+		
+		sql.append("SELECT * FROM `member` WHERE loginId = ?", loginId);
 		
 		Map<String, Object> map = MysqlUtil.selectRow(sql);
 		
