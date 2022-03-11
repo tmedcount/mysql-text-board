@@ -15,8 +15,8 @@ public class ArticleController {
 	private MemberService memberService;
 	
 	public ArticleController() {
-		articleService = new ArticleService();
-		memberService = new MemberService();
+		articleService = Container.articleService;
+		memberService = Container.memberService;
 	}
 	
 	public void doCommand(String cmd) {
