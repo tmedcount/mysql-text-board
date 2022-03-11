@@ -9,7 +9,7 @@ import com.sbs.example.mysqlTextBoard.dto.Member;
 import com.sbs.example.mysqlTextBoard.service.ArticleService;
 import com.sbs.example.mysqlTextBoard.service.MemberService;
 
-public class ArticleController {
+public class ArticleController extends Controller {
 	
 	private ArticleService articleService;
 	private MemberService memberService;
