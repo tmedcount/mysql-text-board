@@ -10,6 +10,7 @@ public class Article {
 	public String body;
 	public int memberId;
 	public int boardId;
+	public String extra__writer;
 
 	public Article(Map<String, Object> map) {
 		this.id = (int) map.get("id");
@@ -19,6 +20,9 @@ public class Article {
 		this.body = (String) map.get("body");
 		this.memberId = (int) map.get("memberId");
 		this.boardId = (int) map.get("boardId");
+		if(map.containsKey("extra__writer")) {
+			this.extra__writer = (String) map.get("extra__writer");
+ 		}
 	}
 
 	@Override

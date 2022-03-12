@@ -3,9 +3,7 @@ package com.sbs.example.mysqlTextBoard;
 
 import java.util.Scanner;
 
-import com.sbs.example.mysqlTextBoard.controller.ArticleController;
 import com.sbs.example.mysqlTextBoard.controller.Controller;
-import com.sbs.example.mysqlTextBoard.controller.MemberController;
 import com.sbs.example.mysqlutil.MysqlUtil;
 
 public class App {
@@ -18,6 +16,7 @@ public class App {
 			String cmd = sc.nextLine();
 			
 			MysqlUtil.setDBInfo("127.0.0.1", "sbsst", "sbs123414", "textBoard");
+			// MysqlUtil.setDevMode(true);
 			
 			boolean needToExit = false;
 			

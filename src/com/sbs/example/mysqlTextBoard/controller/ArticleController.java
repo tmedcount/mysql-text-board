@@ -79,7 +79,7 @@ public class ArticleController extends Controller {
 		
 		// 임시
 		int boardId = 1;
-		int memberId = 1;
+		int memberId = Container.session.getLoginedMemberId();
 
 		int id = articleService.write(boardId, memberId, title, body);
 
@@ -131,14 +131,12 @@ public class ArticleController extends Controller {
 	public void showList(String cmd) {
 		System.out.println("== 게시물 리스트 ==");
 		
-		List<Article> articles = articleService.getArticles();
+		List<Article> articles = articleService.getForPrintArticles();
 		
 		System.out.println("번호/ 작성 / 수정 / 작성자 / 제목");
 		
-		for(Article article : articles) {
-			Member member = memberService.getMemberById(article.memberId);
-			
-			String writer = member.name;
+		for(Article article : articles) {			
+			String writer = article.extra__writer;
 			
 			System.out.printf("%d / %s / %s / %s / %s\n", article.id, article.regDate, article.updateDate, writer, article.title);
 		}
