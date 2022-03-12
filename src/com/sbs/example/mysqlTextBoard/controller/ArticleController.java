@@ -51,6 +51,11 @@ public class ArticleController extends Controller {
 			return;
 		}
 		
+		if(article.memberId != Container.session.getLoginedMemberId()) {
+			System.out.println("권한이 없는 아이디입니다.");
+			return;
+		}
+		
 		Member member = memberService.getMemberById(article.memberId);
 		
 		String writer = member.name;
@@ -111,6 +116,11 @@ public class ArticleController extends Controller {
 		
 		if(article == null) {
 			System.out.println("존재하지 않는 게시물입니다.");
+			return;
+		}
+		
+		if(article.memberId != Container.session.getLoginedMemberId()) {
+			System.out.println("권한이 없는 아이디입니다.");
 			return;
 		}
 		
