@@ -96,9 +96,9 @@ public class ArticleDao {
 		return articles;
 	}
 
-	public Board getBoardByCode(String boardCode) {
+	public Board getBoardByCode(String code) {
 		SecSql sql = new SecSql();
-		sql.append("SELECT * FROM board WHERE `code` = ?", boardCode);
+		sql.append("SELECT * FROM board WHERE `code` = ?", code);
 		
 		Map<String, Object> map = MysqlUtil.selectRow(sql);
 		
@@ -107,5 +107,31 @@ public class ArticleDao {
 		}
 		
 		return new Board(map);
+	}
+
+	public Board getBoardByName(String name) {
+		SecSql sql = new SecSql();
+		sql.append("SELECT * FROM board WHERE `name` = ?", name);
+		
+		Map<String, Object> map = MysqlUtil.selectRow(sql);
+		
+		if(map.isEmpty()) {
+			return null;
+		}
+		
+		return new Board(map);
+	}
+
+	public int makeBoard(String code, String name) {
+
+		SecSql sql = new SecSql();
+		
+		sql.append("INSERT INTO board");
+		sql.append(" SET regDate = NOW(),");
+		sql.append(" updateDate = NOW(),");
+		sql.append(" `code` = ?,", code);
+		sql.append(" `name` = ?", name);
+
+		return MysqlUtil.insert(sql);
 	}
 }

@@ -21,7 +21,9 @@ public class ArticleController extends Controller {
 	}
 	
 	public void doCommand(String cmd) {
-		if(cmd.startsWith("article modify ")) {
+		if(cmd.startsWith("article makeBoard")) {
+			doMakeBoard(cmd);
+		} else if(cmd.startsWith("article modify ")) {
 			doModify(cmd);
 		} else if(cmd.startsWith("article write")) {
 			doWrite(cmd);
@@ -32,6 +34,46 @@ public class ArticleController extends Controller {
 		} else if(cmd.startsWith("article list")) {
 			showList(cmd);
 		}
+		
+	}
+
+	private void doMakeBoard(String cmd) {
+		System.out.println("== 게시판 생성 ==");
+		
+		if(!Container.session.isLogined()) {
+			System.out.println("로그인 후 이용해 주세요.");
+			return;
+		}
+		
+		Member member = memberService.getMemberById(Container.session.getLoginedMemberId());
+		
+		if(!member.isAdmin()) {
+			System.out.println("관리자만 게시판을 생성할 수 있습니다.");
+			return;
+		}
+		
+		Scanner sc = Container.scanner;
+		
+		System.out.print("코드 : ");
+		String code = sc.nextLine();
+		
+		if(!articleService.isMakeBoardAvailableCode(code)) {
+			System.out.println("해당 코드는 사용 중입니다.");
+			return;
+		}
+		
+		System.out.print("이름 : ");
+		String name = sc.nextLine();
+		
+		if(!articleService.isMakeBoardAvailableName(name)) {
+			System.out.println("해당 이름은 사용 중입니다.");
+			return;
+		}
+		
+
+		int id = articleService.makeBoard(code, name);
+
+		System.out.printf("%d번 게시판을 생성하였습니다.\n", id);
 		
 	}
 
@@ -159,7 +201,7 @@ public class ArticleController extends Controller {
 		
 		Board board = articleService.getBoardByCode(boardCode);
 		
-		System.out.printf("== %s 게시물 리스트 ==\n", board.name);
+		System.out.printf("== %s 게시판 리스트 ==\n", board.name);
 		
 		List<Article> articles = articleService.getForPrintArticles(board.id);
 		
