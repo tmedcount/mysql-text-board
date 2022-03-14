@@ -44,7 +44,9 @@ public class App {
 			return Container.memberController;
 		} else if(cmd.startsWith("article ")) {
 			return Container.articleController;
-		}	
+		} else if(cmd.startsWith("build ")) {
+			return Container.buildController;
+		}
 
 		return null;
 	}
