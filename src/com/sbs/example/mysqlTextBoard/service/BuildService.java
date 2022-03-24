@@ -17,7 +17,8 @@ public class BuildService {
 	public void buildSite() {
 		System.out.println("site/article 폴더 생성");
 		
-		Util.mkdirs("site/article");
+		Util.rmdir("site");
+		Util.mkdirs("site");
 		
 		List<Article> articles = articleService.getArticles();
 		
@@ -53,8 +54,8 @@ public class BuildService {
 
 			sb.append("</html>");
 			
-			String fileName = article.id + ".html";
-			String filePath = "site/article/" + fileName;
+			String fileName = "article_detail_" + article.id + ".html";
+			String filePath = "site/" + fileName;
 			
 			System.out.println(filePath + " 생성");
 			Util.writeFile(filePath, sb.toString());
