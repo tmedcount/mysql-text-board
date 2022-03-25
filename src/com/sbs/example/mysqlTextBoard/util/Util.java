@@ -3,11 +3,12 @@ package com.sbs.example.mysqlTextBoard.util;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.channels.FileChannel;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 public class Util {
 
@@ -69,48 +70,25 @@ public class Util {
 		return rs;
 	}
 
+	public static boolean copy(String sourcePath, String destPath) {
+		Path source = Paths.get(sourcePath);
+        Path target = Paths.get(destPath);
 
-	public static void copy(String sourcePath, String destPath) {
-		copy(new File(sourcePath), new File(destPath));
-	}
-
-	public static void copy(File sourceFile, File destFile) {
-		if (!destFile.exists()) {
-			try {
-				destFile.createNewFile();
+        if (!Files.exists(target.getParent())) {
+            try {
+				Files.createDirectories(target.getParent());
 			} catch (IOException e) {
 				e.printStackTrace();
+				return false;
 			}
-		}
+        }
 
-		FileChannel source = null;
-		FileChannel destination = null;
-
-		try {
-			source = new FileInputStream(sourceFile).getChannel();
-			destination = new FileOutputStream(destFile).getChannel();
-			destination.transferFrom(source, 0, source.size());
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+        try {
+			Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (source != null) {
-				try {
-					source.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			if (destination != null) {
-				try {
-					destination.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
+			return true;
 		}
-
+        
+        return true;
 	}
-
 }
