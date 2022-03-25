@@ -20,6 +20,8 @@ public class BuildService {
 		Util.rmdir("site");
 		Util.mkdirs("site");
 		
+		Util.copy("site_template/app.css", "site/app.css");		
+		
 		List<Article> articles = articleService.getArticles();
 		
 		String head = Util.getFileContents("site_template/head.html");

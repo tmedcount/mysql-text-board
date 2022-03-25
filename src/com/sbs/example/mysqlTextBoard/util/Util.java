@@ -3,8 +3,11 @@ package com.sbs.example.mysqlTextBoard.util;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 
 public class Util {
 
@@ -64,6 +67,50 @@ public class Util {
 		}
 
 		return rs;
+	}
+
+
+	public static void copy(String sourcePath, String destPath) {
+		copy(new File(sourcePath), new File(destPath));
+	}
+
+	public static void copy(File sourceFile, File destFile) {
+		if (!destFile.exists()) {
+			try {
+				destFile.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		FileChannel source = null;
+		FileChannel destination = null;
+
+		try {
+			source = new FileInputStream(sourceFile).getChannel();
+			destination = new FileOutputStream(destFile).getChannel();
+			destination.transferFrom(source, 0, source.size());
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (source != null) {
+				try {
+					source.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (destination != null) {
+				try {
+					destination.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
 	}
 
 }
