@@ -153,17 +153,48 @@ a {
 /* 로고바 끝 */
 
 /* 메뉴바 시작 */
+.menu-bar {
+	background-color: black;
+	color: whitesmoke;
+}
+
+.menu-bar__menu-1>ul ul {
+	display: none;
+	position: absolute;
+	top: 100%;
+	left: -10px;
+	width: 100%;
+	background-color: black;
+	border: 10px solid black;
+	border-top-width: 0;
+	border-radius: 0 0 10px 10px;
+}
+
+.menu-bar__menu-1 ul>li>a {
+	text-align: center;
+	padding: 20px 0;
+}
+
+.menu-bar__menu-1>ul>li {
+	width: 25%;
+	position: relative;
+}
+
+.menu-bar__menu-1>ul>li>a {
+	border-radius: 10px 10px 0 0;
+}
+
+.menu-bar__menu-1>ul ul>li:last-child>a {
+	border-radius: 0 0 10px 10px;
+}
+
+.menu-bar__menu-1>ul>li:hover>ul {
+	display: block;
+}
+
+.menu-bar__menu-1 ul>li:hover>a {
+	background-color: white;
+	color: black;
+}
+
 /* 메뉴바 끝 */
-
-/* 메뉴바 - 메뉴1 시작 */
-
-/* 메뉴바 - 메뉴1 끝 */
-
-/* 타이틀바 시작 */
-
-/* 타이틀바 끝 */
-
-/* 하단바 시작 */
-/* 하단바 끝 */
-
-/* 게시물 리스트 */
