@@ -90,23 +90,9 @@ public class BuildService {
 			String link = board.code + "-list-1.html";
 
 			boardMenuContentHtml.append("<a href=\"" + link + "\" class=\"block\">");
-
-			String iClass = "fas fa-clipboard-list";
-
-			if (board.code.contains("notice")) {
-				iClass = "fas fa-flag";
-			} else if (board.code.contains("free")) {
-				iClass = "fab fa-free-code-camp";
-			}
-
-			boardMenuContentHtml.append("<i class=\"" + iClass + "\"></i>");
-
-			boardMenuContentHtml.append(" ");
-
-			boardMenuContentHtml.append("<span>");
-			boardMenuContentHtml.append(board.name);
-			boardMenuContentHtml.append("</span>");
-
+				
+			boardMenuContentHtml.append(getTitleBarContentByPageName("article_list_" + board.code));
+			
 			boardMenuContentHtml.append("</a>");
 
 			boardMenuContentHtml.append("</li>");
@@ -114,16 +100,24 @@ public class BuildService {
 
 		head = head.replace("${menu-bar__menu-1__board-menu-content}", boardMenuContentHtml.toString());
 
-		String titleBarContentHtml = getTitleBarContentByFileName(pageName);
+		String titleBarContentHtml = getTitleBarContentByPageName(pageName);
 
 		head = head.replace("${title-bar__content}", titleBarContentHtml);
 
 		return head;
 	}
 
-	private String getTitleBarContentByFileName(String pageName) {
+	private String getTitleBarContentByPageName(String pageName) {
 		if(pageName.equals("index")) {
 			return "<i class=\"fas fa-home\"></i> <span>HOME</span>";
+		} else if (pageName.equals("article_detail")) {
+			return "<i class=\"fas fa-file-alt\"></i> <span>ARTICLE DETAIL</span>";
+		} else if (pageName.startsWith("article_list_free")) {
+			return "<i class=\"fab fa-free-code-camp\"></i> <span>FREE LIST</span>";
+		} else if (pageName.startsWith("article_list_notice")) {
+			return "<i class=\"fas fa-flag\"></i> <span>NOTICE LIST</span>";
+		} else if (pageName.startsWith("article_list_")) {
+			return "<i class=\"fas fa-clipboard-list\"></i> <span>NOTICE LIST</span>";
 		}
 
 		return "";
