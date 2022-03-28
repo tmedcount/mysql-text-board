@@ -237,3 +237,92 @@ a {
   margin-left: 20px;
 }
 /* 하단바 끝 */
+
+/* 게시물 리스트 시작 */
+:root {
+  --article-list__cell-id__width:100px;
+  --article-list__cell-reg-date__width:220px;
+  --article-list__cell-writer__width:150px;
+  --article-list__cell-title__width:calc(100% - var(--article-list__cell-id__width) - var(--article-list__cell-reg-date__width) - var(--article-list__cell-writer__width));
+}
+
+.article-list > * > div {
+  display:flex;
+}
+
+.article-list > header > div > div {
+  position:relative;
+}
+
+.article-list > header > div > div:not(:last-child)::after {
+  content:"";
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  right:0;
+  width:1px;
+  height:10px;
+  background-color:black;
+}
+
+.article-list > * > div > div {
+  box-sizing:border-box;
+  text-align:center;
+  padding-top:10px;
+  padding-bottom:10px;
+}
+
+.article-list__cell-id {
+  width:var(--article-list__cell-id__width);
+}
+
+.article-list__cell-reg-date {
+  width:var(--article-list__cell-reg-date__width);
+}
+
+.article-list__cell-writer {
+  width:var(--article-list__cell-writer__width);
+}
+
+.article-list__cell-title {
+  width:var(--article-list__cell-title__width);
+}
+
+.article-list > main .article-list__cell-title {
+  text-align:left;
+  padding-left:10px;
+}
+
+.article-list > main > div {
+  border-top:1px solid black;
+}
+/* 게시물 리스트 끝 */
+
+/* 게시물 리스트 페이지 메뉴 시작 */
+.article-page-menu > ul > li > a {
+  padding:7px;
+}
+
+.article-page-menu > ul > li:not(:first-child):not(:last-child) > a {
+  border:1px solid transparent;
+  padding-left:0;
+  padding-right:0;
+  min-width:30px;
+  justify-content:center;
+  
+}
+
+.article-page-menu > ul > li:not(:first-child):not(:last-child):hover > a {
+  
+  
+  border-color:#afafaf;
+}
+
+.article-page-menu {
+  margin-top:20px;
+}
+
+.article-page-menu__link-selected {
+  color:red;
+}
+/* 게시물 리스트 페이지 메뉴 끝 */

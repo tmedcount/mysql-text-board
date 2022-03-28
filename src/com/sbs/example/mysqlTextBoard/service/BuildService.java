@@ -24,7 +24,50 @@ public class BuildService {
 		Util.copy("site_template/app.css", "site/app.css");
 
 		buildIndexPage();
+		buildArticleListPage();
 		buildArticleDetailPages();
+	}
+
+	private void buildArticleListPage() {
+		List<Board> boards = articleService.getForPrintBoards();
+		
+		String bodyTemplate = Util.getFileContents("site_template/article_list.html");
+		
+		String foot = Util.getFileContents("site_template/foot.html");
+		
+		for(Board board : boards) {
+			StringBuilder sb = new StringBuilder();
+
+			sb.append(getHeadHtml("article_list_" + board.code));
+						
+			List<Article> articles = articleService.getForPrintArticles(board.id);
+			
+			StringBuilder mainCotent = new StringBuilder();
+			
+			for(Article article : articles) {
+				String link = "article_detail_" + article.id + ".html";
+				
+				mainCotent.append("<div>");
+				mainCotent.append("<div class=\"article-list__cell-id\">" + article.id + "</div>");
+				mainCotent.append("<div class=\"article-list__cell-reg-date\">" + article.regDate + "</div>");
+				mainCotent.append("<div class=\"article-list__cell-writer\">" + article.extra__writer + "</div>");
+				mainCotent.append("<div class=\"article-list__cell-title\">");
+				mainCotent.append("<a href=\"" + link + "\" class=\"hover-underline\">" + article.title + "</a>");
+				mainCotent.append("</div>");
+				mainCotent.append("</div>");
+			}
+			
+			String body = bodyTemplate.replace("${article-list__main-content}", mainCotent.toString());
+			
+			sb.append(body);
+			sb.append(foot);
+			
+			String fileName = "article_list_" + board.code + "_1.html";
+			String filePath = "site/" + fileName;
+			
+			Util.writeFile(filePath, sb.toString());
+			System.out.println(filePath + " 생성");
+		}
 	}
 
 	private void buildIndexPage() {
@@ -38,7 +81,7 @@ public class BuildService {
 		sb.append(head);
 		sb.append(mainHtml);
 		sb.append(foot);
-
+		
 		String filePath = "site/index.html";
 		Util.writeFile(filePath, sb.toString());
 		System.out.println(filePath + " 생성");
@@ -87,7 +130,7 @@ public class BuildService {
 		for (Board board : forPrintBoards) {
 			boardMenuContentHtml.append("<li>");
 
-			String link = board.code + "-list-1.html";
+			String link = "article_list_" + board.code + "_1.html";
 
 			boardMenuContentHtml.append("<a href=\"" + link + "\" class=\"block\">");
 				
