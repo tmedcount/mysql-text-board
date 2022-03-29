@@ -86,3 +86,17 @@ SET regDate = NOW(),
 updateDate = NOW(),
 `name` = '자유',
 `code` = 'free';
+
+# 게시물 랜덤 생성
+SELECT CONCAT("제목_", RAND());
+
+INSERT INTO article
+SET regDate = NOW(),
+updateDate = NOW(),
+title = CONCAT("제목_", RAND()),
+`body` = CONCAT("내용_", RAND()),
+memberId = IF(RAND() > 0.5, 1, 2),
+boardId = IF(RAND() > 0.5, 1, 2);
+
+SELECT * FROM article;
+SELECT COUNT(*) FROM article WHERE boardId = 2;
