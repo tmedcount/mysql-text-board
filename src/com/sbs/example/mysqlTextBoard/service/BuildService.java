@@ -28,7 +28,7 @@ public class BuildService {
 		buildArticleDetailPages();
 	}
 	
-	private void buildArticleListPage(Board board, int itemsInAPage, int pageBoxMenuSize, List<Article> articles, int page) {
+	private void buildArticleListPage(Board board, int itemsInAPage, int pageBoxSize, List<Article> articles, int page) {
 		StringBuilder sb = new StringBuilder();
 		
 		// 헤더 시작
@@ -64,9 +64,62 @@ public class BuildService {
 		
 		StringBuilder pageMenuContent = new StringBuilder();
 		
-		pageMenuContent.append("<li><a href=\"#\" class=\"flex flex-ai-c\"> &lt; 이전</a></li>");
-		pageMenuContent.append("<li><a href=\"#\" class=\"flex flex-ai-c article-page-menu__link-selected\">1</a></li>");
-		pageMenuContent.append("<li><a href=\"#\" class=\"flex flex-ai-c\">다음 &gt; </a></li>");
+		// 토탈 페이지 계산
+		int totalPage = (int)Math.ceil((double)articlesCount / itemsInAPage);
+		
+		// 현재 페이지 계산
+		if ( page < 1 ) {
+			page = 1;
+		}
+		
+		if ( page > totalPage ) {
+			page = totalPage;
+		}
+		
+		// 현재 페이지 박스 시작, 끝 계산
+		int previousPageBoxesCount = (page - 1) / pageBoxSize;
+		int pageBoxStartPage = pageBoxSize * previousPageBoxesCount + 1;
+		int pageBoxEndPage = pageBoxStartPage + pageBoxSize - 1;
+		
+		if ( pageBoxEndPage > totalPage ) {
+			pageBoxEndPage = totalPage;
+		}
+		
+		// 이전버튼 페이지 계산
+		int pageBoxStartBeforePage = pageBoxStartPage - 1;
+		if ( pageBoxStartBeforePage < 1 ) {
+			pageBoxStartBeforePage = 1;
+		}
+		
+		// 다음버튼 페이지 계산
+		int pageBoxEndAfterPage = pageBoxEndPage + 1;
+		
+		if ( pageBoxEndAfterPage > totalPage ) {
+			pageBoxEndAfterPage = totalPage;
+		}
+		
+		// 이전버튼 노출여부 계산
+		boolean pageBoxStartBeforeBtnNeedToShow = pageBoxStartBeforePage != pageBoxStartPage;
+		// 다음버튼 노출여부 계산
+		boolean pageBoxEndAfterBtnNeedToShow = pageBoxEndAfterPage != pageBoxEndPage;
+		
+		if(pageBoxStartBeforeBtnNeedToShow) {
+			pageMenuContent.append("<li><a href=\"" + getArticleListFileName(board, pageBoxStartBeforePage) + "\" class=\"flex flex-ai-c\"> &lt; 이전</a></li>");
+		}
+		
+		for(int i = pageBoxStartPage; i <= pageBoxEndPage; i++) {
+			String selectedClass = "";
+			
+			if(i == page) {
+				selectedClass = "article-page-menu__link-selected";
+			}
+				
+			pageMenuContent.append("<li><a href=\"" + getArticleListFileName(board, i) + "\" class=\"flex flex-ai-c " + selectedClass + "\">" + i + "</a></li>");
+		}
+		
+		if(pageBoxEndAfterBtnNeedToShow) {
+			pageMenuContent.append("<li><a href=\"" + getArticleListFileName(board, pageBoxEndAfterPage) + "\" class=\"flex flex-ai-c\">다음 &gt; </a></li>");
+		}
 		
 		String body = bodyTemplate.replace("${article-list__main-content}", mainCotent.toString());
 		body = body.replace("${article-page-menu__content}", pageMenuContent.toString());
@@ -89,11 +142,15 @@ public class BuildService {
 		sb.append(Util.getFileContents("site_template/foot.html"));
 				
 		// 파일 생성 시작
-		String fileName = "article_list_" + board.code + "_" + page + ".html";
+		String fileName = getArticleListFileName(board, page);
 		String filePath = "site/" + fileName;
 		
 		Util.writeFile(filePath, sb.toString());
 		System.out.println(filePath + " 생성");
+	}
+
+	private String getArticleListFileName(Board board, int page) {
+		return "article_list_" + board.code + "_" + page + ".html";
 	}
 
 	private void buildArticleListPages() {
@@ -174,7 +231,7 @@ public class BuildService {
 		for (Board board : forPrintBoards) {
 			boardMenuContentHtml.append("<li>");
 
-			String link = "article_list_" + board.code + "_1.html";
+			String link = getArticleListFileName(board, 1);
 
 			boardMenuContentHtml.append("<a href=\"" + link + "\" class=\"block\">");
 				
