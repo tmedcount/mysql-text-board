@@ -95,8 +95,5 @@ SET regDate = NOW(),
 updateDate = NOW(),
 title = CONCAT("제목_", RAND()),
 `body` = CONCAT("내용_", RAND()),
-memberId = IF(RAND() > 0.5, 1, 2),
-boardId = IF(RAND() > 0.5, 1, 2);
-
-SELECT * FROM article;
-SELECT COUNT(*) FROM article WHERE boardId = 2;
+memberId = FLOOR(RAND() * 2) + 1,
+boardId = FLOOR(RAND() * 2) + 1

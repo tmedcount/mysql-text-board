@@ -11,6 +11,8 @@ public class Article {
 	public int memberId;
 	public int boardId;
 	public String extra__writer;
+	public String extra__boardName;
+	public String extra__boardCode;
 
 	public Article(Map<String, Object> map) {
 		this.id = (int) map.get("id");
@@ -23,13 +25,20 @@ public class Article {
 		if(map.containsKey("extra__writer")) {
 			this.extra__writer = (String) map.get("extra__writer");
  		}
+		if(map.containsKey("extra__boardName")) {
+			this.extra__boardName = (String) map.get("extra__boardName");
+ 		}
+		if(map.containsKey("extra__boardCode")) {
+			this.extra__boardCode = (String) map.get("extra__boardCode");
+ 		}
 	}
 
 	@Override
 	public String toString() {
 		return "Article [id=" + id + ", regDate=" + regDate + ", updateDate=" + updateDate + ", title=" + title
-				+ ", body=" + body + ", memberId=" + memberId + ", boardId=" + boardId + "]";
+				+ ", body=" + body + ", memberId=" + memberId + ", boardId=" + boardId + ", extra__writer="
+				+ extra__writer + ", extra__boardName=" + extra__boardName + ", extra__boardCode=" + extra__boardCode
+				+ "]";
 	}
-	
 	
 }
