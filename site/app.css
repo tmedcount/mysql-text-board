@@ -190,6 +190,7 @@ a {
   border: 10px solid black;
   border-top-width: 0;
   border-radius: 0 0 20px 20px;
+  z-index:10;
 }
 
 .menu-bar__menu-1 ul > li > a {
