@@ -26,8 +26,8 @@
     url("https://cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamLight.woff")
       format("woff");
 }
-html {
-  font-family: "LotteMartDream", sans-serif;
+html, .tui-editor-contents  {
+  font-family: "LotteMartDream", sans-serif !important;
 }
 
 /* 노말라이즈 */

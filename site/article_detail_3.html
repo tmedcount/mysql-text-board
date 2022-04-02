@@ -79,7 +79,16 @@
 				<div class="article-detail__writer">테스터1</div>
 			</div>
 
-			<div class="article-detail__body"></div>
+			<div class="article-detail__body">#공지사항
+안녕하세요.
+이 사이트는 저의 글 연재 공간입니다.
+
+---
+
+# 이 사이트의 특징
+- A
+- B
+- C</div>
 
 			<div class="article-detail__menu flex">
 				<a title="" href="article_detail_0.html"
@@ -95,26 +104,7 @@
 	</div>
 </section>
 
-<script>
-function ArticleDetail__Body__init() {
-  var viewer = new toastui.Editor.factory({
-    el: document.querySelector('.article-detail__body'),
-    initialValue: `#공지사항
-안녕하세요.
-이 사이트는 저의 글 연재 공간입니다.
-
----
-
-# 이 사이트의 특징
-- A
-- B
-- C`,
-    viewer:true
-  });
-}
-	
-ArticleDetail__Body__init();
-</script></main>
+</main>
 
 <footer class="bottom-bar con-min-width">
 	<div class="con flex flex-ai-c">
@@ -131,5 +121,6 @@ ArticleDetail__Body__init();
 </footer>
 <!-- 타이틀바 끝 -->
 </div>
+<script src="app.js"></script>
 </body>
 </html>
