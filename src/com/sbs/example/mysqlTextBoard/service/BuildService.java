@@ -233,12 +233,15 @@ public class BuildService {
 				StringBuilder sb = new StringBuilder();
 
 				sb.append(head);
+				
+				String articleBodyForPrint = article.body;
+				articleBodyForPrint = articleBodyForPrint.replaceAll("script", "<!--REPLACE:script-->");
 
 				String body = bodyTemplate.replace("${article-detail__title}", article.title);
 				body = body.replace("${article-detail__board-name}", article.extra__boardName);
 				body = body.replace("${article-detail__reg-date}", article.regDate);
 				body = body.replace("${article-detail__writer}", article.extra__writer);
-				body = body.replace("${article-detail__body}", article.body);
+				body = body.replace("${article-detail__body}", articleBodyForPrint);
 				body = body.replace("${article-detail__link-prev-article-url}", getArticleDetailFileName(prevArticleId));
 				body = body.replace("${article-detail__link-prev-article-title-attr}", prevArticle != null ? prevArticle.title : "");
 				body = body.replace("${article-detail__link-prev-article-class-addi}", prevArticleId == 0 ? "none" : "");
