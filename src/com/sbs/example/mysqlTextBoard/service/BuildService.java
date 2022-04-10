@@ -310,6 +310,13 @@ public class BuildService {
 		String siteDomain = "yamto.ml";
 		String siteMainUrl = "https://" + siteDomain;
 		String currentDate = Util.getNowDateStr().replace(" ", "T");
+		
+		if(relObj instanceof Article) {
+			Article article = (Article) relObj;
+			siteSubject = article.title;
+			siteDescription = article.body;
+			siteDescription = siteDescription.replaceAll("[^\uAC00-\uD7A3xfe0-9a-zA-Z\\s]", "");
+		}
 
 		head = head.replace("${site-name}", siteName);
 		head = head.replace("${site-subject}", siteSubject);
@@ -319,7 +326,6 @@ public class BuildService {
 		head = head.replace("${current-date}", currentDate);
 		head = head.replace("${site-main-url}", siteMainUrl);
 		head = head.replace("${site-keywords}", siteKeywords);
-
 		
 		return head;
 	}
