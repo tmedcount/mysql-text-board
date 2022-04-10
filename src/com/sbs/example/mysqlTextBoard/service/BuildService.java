@@ -203,7 +203,6 @@ public class BuildService {
 	private void buildArticleDetailPages() {
 		List<Board> boards = articleService.getForPrintBoards();
 
-		String head = getHeadHtml("article_detail");
 		String bodyTemplate = Util.getFileContents("site_template/article_detail.html");
 		String foot = Util.getFileContents("site_template/foot.html");
 
@@ -212,6 +211,8 @@ public class BuildService {
 
 			for (int i =0; i < articles.size(); i++) {
 				Article article = articles.get(i);
+				
+				String head = getHeadHtml("article_detail", article);
 				
 				Article prevArticle = null;
 				int prevArticleIndex = i + 1;
@@ -265,8 +266,12 @@ public class BuildService {
 			}
 		}
 	}
-
+	
 	private String getHeadHtml(String pageName) {
+		return getHeadHtml(pageName, null);
+	}
+
+	private String getHeadHtml(String pageName, Object relObj) {
 		String head = Util.getFileContents("site_template/head.html");
 
 		StringBuilder boardMenuContentHtml = new StringBuilder();
@@ -291,8 +296,36 @@ public class BuildService {
 		String titleBarContentHtml = getTitleBarContentByPageName(pageName);
 
 		head = head.replace("${title-bar__content}", titleBarContentHtml);
-
+		
+		String pageTitle = getPageTitle(pageName, relObj);
+		
+		head = head.replace("${page-title}", pageTitle);
+		
 		return head;
+	}
+
+	private String getPageTitle(String pageName, Object relObj) {
+		StringBuilder sb = new StringBuilder();
+		
+		String forPrintPageName = pageName;
+		
+		if(forPrintPageName.equals("index")) {
+			forPrintPageName = "home";
+		}
+		
+		forPrintPageName = forPrintPageName.toUpperCase();
+		forPrintPageName = forPrintPageName.replaceAll("_", " ");
+		
+		sb.append("Developers | ");
+		sb.append(forPrintPageName);
+		
+		if(relObj instanceof Article) {
+			Article article = (Article)relObj;
+			
+			sb.insert(0, article.title + " | ");
+		}
+		
+		return sb.toString();
 	}
 
 	private String getTitleBarContentByPageName(String pageName) {
