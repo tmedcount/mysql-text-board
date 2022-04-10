@@ -254,6 +254,9 @@ public class BuildService {
 				body = body.replace("${article-detail__link-next-article-url}", getArticleDetailFileName(nextArticleId));
 				body = body.replace("${article-detail__link-next-article-title-attr}", nextArticle != null ? nextArticle.title : "");
 				body = body.replace("${article-detail__link-next-article-class-addi}", nextArticleId == 0 ? "none" : "");
+				
+				body = body.replace("${site-domain}", "yamto.ml");
+				body = body.replace("${file-name}", getArticleDetailFileName(article.id));
 
 				sb.append(body);
 

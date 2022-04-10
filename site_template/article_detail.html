@@ -37,6 +37,10 @@ ${article-detail__body}
 			<div class="article-detail__reply-box">
 				<div id="disqus_thread"></div>
 				<script>
+					var disqus_config = function() {
+						this.page.url = 'https://${site-domain}/${file-name}';
+						this.page.identifier = '${file-name}';
+					};
 					(function() { // DON'T EDIT BELOW THIS LINE
 						var d = document, s = d.createElement('script');
 						s.src = 'https://yamto.disqus.com/embed.js';
