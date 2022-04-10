@@ -20,6 +20,8 @@ public class BuildService {
 
 		Util.mkdirs("site");
 		
+		Util.copyDir("site_template/img", "site/img");
+		
 		Util.copy("site_template/favicon.ico", "site/favicon.ico");
 		Util.copy("site_template/app.css", "site/app.css");
 		Util.copy("site_template/app.js", "site/app.js");
@@ -300,6 +302,24 @@ public class BuildService {
 		String pageTitle = getPageTitle(pageName, relObj);
 		
 		head = head.replace("${page-title}", pageTitle);
+		
+		String siteName = "Developers";
+		String siteSubject = "개발자의 기술/일상 블로그";
+		String siteDescription = "개발자의 기술/일상 관련 글들을 공유";
+		String siteKeywords = "HTML, CSS, JAVASCRIPT, JAVA, SPRING, MySQL, LINUX, REACT";
+		String siteDomain = "yamto.ml";
+		String siteMainUrl = "https://" + siteDomain;
+		String currentDate = Util.getNowDateStr().replace(" ", "T");
+
+		head = head.replace("${site-name}", siteName);
+		head = head.replace("${site-subject}", siteSubject);
+		head = head.replace("${site-description}", siteDescription);
+		head = head.replace("${site-domain}", siteDomain);
+		head = head.replace("${site-domain}", siteDomain);
+		head = head.replace("${current-date}", currentDate);
+		head = head.replace("${site-main-url}", siteMainUrl);
+		head = head.replace("${site-keywords}", siteKeywords);
+
 		
 		return head;
 	}
