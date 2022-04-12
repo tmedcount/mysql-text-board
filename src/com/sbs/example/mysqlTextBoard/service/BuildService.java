@@ -367,7 +367,8 @@ public class BuildService {
 		} else if (pageName.startsWith("article_list_notice")) {
 			return "<i class=\"fas fa-flag\"></i> <span>NOTICE LIST</span>";
 		} else if (pageName.startsWith("article_list_")) {
-			return "<i class=\"fas fa-clipboard-list\"></i> <span>NOTICE LIST</span>";
+			String boardName = pageName.replace("article_list_", "").toUpperCase();
+			return "<i class=\"fas fa-clipboard-list\"></i> <span>" + boardName +" LIST</span>";
 		}
 
 		return "";
