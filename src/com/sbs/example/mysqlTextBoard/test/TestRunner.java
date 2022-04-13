@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.apidto.DisqusApiDataListThread;
 import com.sbs.example.mysqlTextBoard.util.Util;
 
@@ -105,7 +106,7 @@ public class TestRunner {
 	private void testApi3() {
 		String url = "https://disqus.com/api/3.0/forums/listThreads.json";
 
-		DisqusApiDataListThread rs = (DisqusApiDataListThread)Util.callApiResponseTo(DisqusApiDataListThread.class, url, "api_key=7etmI9A5O6B4mJ1AoakRWtHUchhmGkNvmUjc0Jb4CnEy367qo67hZg1Rm2jBznEq", "forum=yamto", "thread:ident=article_detail_1.html");
+		DisqusApiDataListThread rs = (DisqusApiDataListThread)Util.callApiResponseTo(DisqusApiDataListThread.class, url, "api_key=" + Container.config.getDisqusApiKey(), "forum=yamto", "thread:ident=article_detail_1.html");
 		
 		System.out.println(rs.response.get(0).likes + rs.response.get(0).posts);
 	}
@@ -113,7 +114,7 @@ public class TestRunner {
 	private void testApi2() {
 		String url = "https://disqus.com/api/3.0/forums/listThreads.json";
 
-		Map<String, Object> rs = Util.callApiResponseToMap(url, "api_key=7etmI9A5O6B4mJ1AoakRWtHUchhmGkNvmUjc0Jb4CnEy367qo67hZg1Rm2jBznEq", "forum=yamto", "thread:ident=article_detail_1.html");
+		Map<String, Object> rs = Util.callApiResponseToMap(url, "api_key=" + Container.config.getDisqusApiKey(), "forum=yamto", "thread:ident=article_detail_1.html");
 		
 		List<Map<String, Object>> response = (List<Map<String, Object>>) rs.get("response");
 		
@@ -125,7 +126,7 @@ public class TestRunner {
 	private void testApi() {
 		String url = "https://disqus.com/api/3.0/forums/listThreads.json";
 
-		String rs = Util.callApi(url, "api_key=7etmI9A5O6B4mJ1AoakRWtHUchhmGkNvmUjc0Jb4CnEy367qo67hZg1Rm2jBznEq", "forum=yamto", "thread:ident=article_detail_1.html");
+		String rs = Util.callApi(url, "api_key=" + Container.config.getDisqusApiKey(), "forum=yamto", "thread:ident=article_detail_1.html");
 		
 		System.out.println(rs);
 	}

@@ -1,6 +1,8 @@
 package com.sbs.example.mysqlTextBoard.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.sbs.example.mysqlTextBoard.Container;
 import com.sbs.example.mysqlTextBoard.dto.Article;
@@ -10,9 +12,11 @@ import com.sbs.example.mysqlTextBoard.util.Util;
 public class BuildService {
 
 	private ArticleService articleService;
+	private DisqusApiService disqusApiService;
 
 	public BuildService() {
 		articleService = Container.articleService;
+		disqusApiService = Container.disqusApiService;
 	}
 
 	public void buildSite() {
@@ -25,10 +29,32 @@ public class BuildService {
 		Util.copy("site_template/favicon.ico", "site/favicon.ico");
 		Util.copy("site_template/app.css", "site/app.css");
 		Util.copy("site_template/app.js", "site/app.js");
+		
 
+		loadDisqusData();
 		buildIndexPage();
 		buildArticleListPages();
 		buildArticleDetailPages();
+	}
+
+	private void loadDisqusData() {
+		List<Article> articles = articleService.getForPrintArticles();
+		
+		for(Article article : articles) {
+			Map<String, Object> disqusArticleData = disqusApiService.getArticleData(article);
+			
+			if(disqusArticleData != null) {
+				int likesCount = (int)disqusArticleData.get("likesCount");
+				int commentsCount = (int)disqusArticleData.get("commentsCount");
+				
+				Map<String, Object> modifyArgs = new HashMap<>();
+				modifyArgs.put("id", article.id);
+				modifyArgs.put("likesCount", likesCount);
+				modifyArgs.put("commentsCount", commentsCount);
+				
+				articleService.modify(modifyArgs);
+			}
+		}
 	}
 
 	private void buildArticleListPage(Board board, int itemsInAPage, int pageBoxSize, List<Article> articles,
@@ -156,7 +182,7 @@ public class BuildService {
 		System.out.println(filePath + " 생성");
 	}
 
-	private String getArticleDetailFileName(int id) {
+	public String getArticleDetailFileName(int id) {
 		return "article_detail_" + id + ".html";
 	}
 
@@ -245,6 +271,10 @@ public class BuildService {
 				body = body.replace("${article-detail__board-name}", article.extra__boardName);
 				body = body.replace("${article-detail__reg-date}", article.regDate);
 				body = body.replace("${article-detail__writer}", article.extra__writer);
+				
+				body = body.replace("${article-detail__likes-count}", article.likesCount + "");
+				body = body.replace("${article-detail__comments-count}", article.commentsCount + "");
+				
 				body = body.replace("${article-detail__body}", articleBodyForPrint);
 				body = body.replace("${article-detail__link-prev-article-url}", getArticleDetailFileName(prevArticleId));
 				body = body.replace("${article-detail__link-prev-article-title-attr}", prevArticle != null ? prevArticle.title : "");
@@ -306,7 +336,7 @@ public class BuildService {
 		
 		head = head.replace("${page-title}", pageTitle);
 		
-		String siteName = "Developers";
+		String siteName = Container.config.getSiteName();
 		String siteSubject = "개발자의 기술/일상 블로그";
 		String siteDescription = "개발자의 기술/일상 관련 글들을 공유";
 		String siteKeywords = "HTML, CSS, JAVASCRIPT, JAVA, SPRING, MySQL, LINUX, REACT";
@@ -345,7 +375,7 @@ public class BuildService {
 		forPrintPageName = forPrintPageName.toUpperCase();
 		forPrintPageName = forPrintPageName.replaceAll("_", " ");
 		
-		sb.append("Developers | ");
+		sb.append(Container.config.getSiteName() + " | ");
 		sb.append(forPrintPageName);
 		
 		if(relObj instanceof Article) {

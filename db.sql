@@ -122,4 +122,8 @@ SELECT * FROM article;
 
 # 2번글 내용에 자바소스코드 넣기
 UPDATE article SET `body` = '# 자바기본문법\r\n```java\r\nint a = 10;\r\nint b = 20;\r\nint c = a + b;\r\n```'
-WHERE id = '2'; 
+WHERE id = '2';
+
+# 게시물 테이블에 추천수, 댓글수 칼럼 추가
+ALTER TABLE article ADD COLUMN likesCount INT(10) UNSIGNED NOT NULL;
+ALTER TABLE article ADD COLUMN commentsCount INT(10) UNSIGNED NOT NULL;

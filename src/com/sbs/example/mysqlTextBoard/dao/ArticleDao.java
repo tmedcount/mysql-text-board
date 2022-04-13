@@ -61,15 +61,36 @@ public class ArticleDao {
 		return MysqlUtil.insert(sql);
 	}
 
-	public int modify(int id, String title, String body) {
+	public int modify(Map<String, Object> args) {
 		
 		SecSql sql = new SecSql();
-		
+
+		int id = (int) args.get("id");
+		String title = args.get("title") != null ? (String) args.get("title") : null;
+		String body = args.get("body") != null ? (String) args.get("body") : null;
+		int likesCount = args.get("likesCount") != null ? (int) args.get("likesCount") : -1;
+		int commentsCount = args.get("commentsCount") != null ? (int) args.get("commentsCount") : -1;
+
 		sql.append("UPDATE article");
-		sql.append(" SET updateDate = NOW(),");
-		sql.append(" title = ?,", title);
-		sql.append(" body = ?", body);
-		sql.append(" WHERE id = ?", id);
+		sql.append(" SET updateDate = NOW()");
+
+		if (title != null) {
+			sql.append(", title = ?", title);
+		}
+
+		if (body != null) {
+			sql.append(", body = ?", body);
+		}
+
+		if (likesCount != -1) {
+			sql.append(", likesCount = ?", likesCount);
+		}
+
+		if (commentsCount != -1) {
+			sql.append(", commentsCount = ?", commentsCount);
+		}
+
+		sql.append("WHERE id = ?", id);
 
 		return MysqlUtil.update(sql);
 	}
