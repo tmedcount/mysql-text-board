@@ -20,9 +20,14 @@ public class TestRunner {
 	}
 	
 	public void run() {
-		testApi3();
+		testGoogleCredentials();
 	}
 	
+	private void testGoogleCredentials() {
+		String keyFilePath = System.getenv("GOOGLE_APPLICATION_CREDENTIALS");
+		System.out.println(keyFilePath);
+	}
+
 	private void testJackson5() {
 		String jsonString = "[{\"age\":22, \"name\":\"홍길동\", \"height\":178},{\"age\":23, \"name\":\"홍길순\", \"height\":168},{\"age\":24, \"name\":\"임꺽정\"}]";
 		
